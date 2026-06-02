@@ -2,7 +2,7 @@
 
 LoRA (rank=16) fine-tuned [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) on OPUS-100 en-zh for Chinese-to-English translation.
 
-**Live Demo**: [Kaggle Gradio](https://af21adc822bc4835d2.gradio.live) (GPU-powered, instant translation)
+**Live Demo**: Run `python app.py` locally (GPU required), or launch on [Kaggle](https://www.kaggle.com/) with a free T4 GPU. See screenshot below.
 
 **Model**: [wangchao-nlp/qwen2.5-0.5b-zh-en-lora](https://huggingface.co/wangchao-nlp/qwen2.5-0.5b-zh-en-lora)
 
