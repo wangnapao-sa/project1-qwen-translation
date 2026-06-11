@@ -2,15 +2,15 @@ import gradio as gr
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-MODEL_ID = "wangchao-nlp/qwen2.5-0.5b-zh-en-lora"
+MODEL_PATH = "./qwen-translation-lora-final"
 
 model = AutoModelForCausalLM.from_pretrained(
-    MODEL_ID,
+    MODEL_PATH,
     torch_dtype=torch.float16,
     trust_remote_code=True,
     device_map="auto",
 )
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
 
 def translate(text):

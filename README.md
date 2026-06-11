@@ -6,7 +6,7 @@ LoRA (rank=16) fine-tuned [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qw
 
 ![Demo Screenshot](demo.png)
 
-**Model**: [wangchao-nlp/qwen2.5-0.5b-zh-en-lora](https://huggingface.co/wangchao-nlp/qwen2.5-0.5b-zh-en-lora)
+**Model**: Qwen2.5-0.5B-Instruct + LoRA (local weights)
 
 ## Results
 
@@ -43,29 +43,9 @@ Without filtering, the fine-tuned model generated multi-sentence continuations.
 
 ## Usage
 
-```python
-from transformers import AutoModelForCausalLM, AutoTokenizer
-
-model = AutoModelForCausalLM.from_pretrained(
-    "wangchao-nlp/qwen2.5-0.5b-zh-en-lora",
-    torch_dtype=torch.float16,
-    trust_remote_code=True,
-    device_map="auto",
-)
-tokenizer = AutoTokenizer.from_pretrained("wangchao-nlp/qwen2.5-0.5b-zh-en-lora")
-tokenizer.pad_token = tokenizer.eos_token
-
-messages = [
-    {"role": "system", "content": "你是一个专业的翻译助手。你只输出英文翻译，不添加任何解释、评论或额外内容。"},
-    {"role": "user", "content": "翻译成英文：人工智能正在改变世界。"},
-]
-formatted = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-inputs = tokenizer(formatted, return_tensors="pt").to(model.device)
-
-with torch.no_grad():
-    outputs = model.generate(**inputs, max_new_tokens=100, temperature=0.3, pad_token_id=tokenizer.eos_token_id)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
-# Output: AI is changing the world.
+```bash
+# Run Gradio demo locally (GPU required)
+python app.py
 ```
 
 ## Files
@@ -73,4 +53,4 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 - `train_clean.py` — Clean 10-cell Kaggle notebook
 - `train.ipynb` — Kaggle training notebook
 - `requirements.txt` — Python dependencies
-- `app.py` — Gradio demo (also on [HF Spaces](https://huggingface.co/spaces/wangchao-nlp/qwen-zh-en-translation))
+- `app.py` — Local Gradio demo
