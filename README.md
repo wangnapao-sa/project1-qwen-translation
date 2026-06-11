@@ -1,8 +1,10 @@
-# QLoRA Fine-tuned Qwen2.5 for Chinese-English Translation
+# LoRA Fine-tuned Qwen2.5 for Chinese-English Translation
 
 LoRA (rank=16) fine-tuned [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct) on OPUS-100 en-zh for Chinese-to-English translation.
 
-**Live Demo**: Run `python app.py` locally (GPU required), or launch on [Kaggle](https://www.kaggle.com/) with a free T4 GPU. See screenshot below.
+**Live Demo**: [Gradio Demo](https://85d247cb656429fe8e.gradio.live) | Or run `python app.py` locally (GPU required).
+
+![Demo Screenshot](demo.png)
 
 **Model**: [wangchao-nlp/qwen2.5-0.5b-zh-en-lora](https://huggingface.co/wangchao-nlp/qwen2.5-0.5b-zh-en-lora)
 
@@ -10,8 +12,8 @@ LoRA (rank=16) fine-tuned [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qw
 
 | Model | BLEU |
 |---|---|
-| Qwen2.5-0.5B (zero-shot) | 13.65 |
-| Qwen2.5-0.5B + LoRA (ours) | **15.20** (+1.55) |
+| Qwen2.5-0.5B (zero-shot) | 13.95 |
+| Qwen2.5-0.5B + LoRA (ours) | **15.50** (+1.55) |
 
 BLEU evaluated on 200 test samples from OPUS-100 en-zh using SACREBLEU.
 
@@ -54,7 +56,7 @@ tokenizer = AutoTokenizer.from_pretrained("wangchao-nlp/qwen2.5-0.5b-zh-en-lora"
 tokenizer.pad_token = tokenizer.eos_token
 
 messages = [
-    {"role": "system", "content": "你是一个专业的翻译助手。只输出英文翻译，不添加任何额外内容。"},
+    {"role": "system", "content": "你是一个专业的翻译助手。你只输出英文翻译，不添加任何解释、评论或额外内容。"},
     {"role": "user", "content": "翻译成英文：人工智能正在改变世界。"},
 ]
 formatted = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -68,6 +70,7 @@ print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 ## Files
 
+- `train_clean.py` — Clean 10-cell Kaggle notebook
 - `train.ipynb` — Kaggle training notebook
 - `requirements.txt` — Python dependencies
 - `app.py` — Gradio demo (also on [HF Spaces](https://huggingface.co/spaces/wangchao-nlp/qwen-zh-en-translation))
